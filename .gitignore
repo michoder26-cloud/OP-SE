@@ -1,0 +1,12 @@
+# Public source allowlist. Local research, screenshots, logs, build outputs,
+# downloaded dependencies, credentials, and user data stay on this computer.
+/*
+!/.gitignore
+!/Cargo.toml
+!/Cargo.lock
+!/README.md
+!/LICENSE
+!/CONTRIBUTING.md
+!/src/
+!/docs/
+!/.github/

@@ -1,6 +1,6 @@
 //! Sign in with ChatGPT for the open-source desktop app.
 //! OAuth credentials stay in memory. Only the non-secret client and host IDs
-//! are saved, so a new browser sign-in is needed after restarting OpenCode.
+//! are saved, so a new browser sign-in is needed after restarting OP-SE.
 
 use std::{
     fs,
@@ -114,7 +114,19 @@ fn client_path() -> std::path::PathBuf {
 
 fn load_client() -> Result<Client, String> {
     let path = client_path();
+    let legacy = path
+        .parent()
+        .and_then(|p| p.parent())
+        .map(|p| p.join("OpenCode").join("chatgpt-client.json"));
     let mut client: Client = fs::read_to_string(&path)
+        .or_else(|_| {
+            legacy.map(fs::read_to_string).unwrap_or_else(|| {
+                Err(std::io::Error::new(
+                    std::io::ErrorKind::NotFound,
+                    "No legacy ChatGPT client",
+                ))
+            })
+        })
         .ok()
         .and_then(|s| serde_json::from_str(&s).ok())
         .unwrap_or_default();
@@ -179,7 +191,7 @@ fn sign_in_inner() -> Result<(Session, Vec<(String, String)>), String> {
             .append_pair("code_challenge", &challenge)
             .append_pair("ext_agent_host_id", &client.host_id);
         if first_registration {
-            q.append_pair("agent_name_hint", "OpenCode");
+            q.append_pair("agent_name_hint", "OP-SE");
         }
     }
     webbrowser::open(authorize.as_str()).map_err(|e| format!("Could not open browser: {e}"))?;
@@ -210,9 +222,9 @@ fn sign_in_inner() -> Result<(Session, Vec<(String, String)>), String> {
                     .get("state")
                     .is_some_and(|value| value == &state_value);
                 let body = if valid {
-                    "You can return to OpenCode."
+                    "You can return to OP-SE."
                 } else {
-                    "Invalid sign-in response. Return to OpenCode and try again."
+                    "Invalid sign-in response. Return to OP-SE and try again."
                 };
                 let reply = format!("HTTP/1.1 200 OK\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", body.len(), body);
                 let _ = socket.write_all(reply.as_bytes());

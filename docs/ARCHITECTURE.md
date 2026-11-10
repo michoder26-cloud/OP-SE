@@ -1,6 +1,6 @@
 # Architecture
 
-OpenCode is a Rust desktop app built with `eframe` and `egui`. It is an
+OP-SE is a Rust desktop app built with `eframe` and `egui`. It is an
 independent editor, not a VS Code OSS fork. The source contains no Electron or
 web frontend. The current code is an early prototype, not a full replacement
 for VS Code or Cursor.

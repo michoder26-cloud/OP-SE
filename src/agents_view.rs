@@ -238,7 +238,7 @@ impl App {
             },
         );
         tip.append(
-            " to have OpenCode search your whole project before it answers",
+            " to have OP-SE search your whole project before it answers",
             0.0,
             fmt(MUTED),
         );

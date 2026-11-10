@@ -1,4 +1,4 @@
-//! OpenCode — an open-source, Rust-native AI code editor.
+//! OP-SE — an open-source, Rust-native AI code editor.
 //!
 //! Ctrl+K edits code in place, Ctrl+L chats about the code (with @file, @folder
 //! and @codebase mentions), Ctrl+I runs the agent that edits many files at once,
@@ -33,7 +33,7 @@ fn main() -> eframe::Result {
             "--screenshot" => startup.screenshot = args.next().map(PathBuf::from),
             "--open" => startup.open = args.next().map(PathBuf::from),
             "--help" | "-h" => {
-                println!("opencode [FOLDER] [--open FOLDER] [--screenshot FILE.png]");
+                println!("op-se [FOLDER] [--open FOLDER] [--screenshot FILE.png]");
                 return Ok(());
             }
             other if !other.starts_with("--") => startup.open = Some(PathBuf::from(other)),
@@ -44,7 +44,7 @@ fn main() -> eframe::Result {
     let mut viewport = egui::ViewportBuilder::default()
         .with_inner_size([1440.0, 900.0])
         .with_min_inner_size([960.0, 600.0])
-        .with_title("OpenCode");
+        .with_title("OP-SE");
     if startup.screenshot.is_some() {
         // A check must never steal focus from what the person is doing.
         viewport = viewport.with_active(false);
@@ -66,7 +66,7 @@ fn main() -> eframe::Result {
         }));
     }
     eframe::run_native(
-        "OpenCode",
+        "OP-SE",
         options,
         Box::new(move |cc| Ok(Box::new(app::App::new(cc, startup)))),
     )

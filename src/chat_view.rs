@@ -665,7 +665,7 @@ impl App {
             return;
         }
         let mut open = true;
-        egui::Window::new(RichText::new("OpenCode Settings").strong())
+        egui::Window::new(RichText::new("OP-SE Settings").strong())
             .open(&mut open)
             .collapsible(false)
             .resizable(true)
@@ -782,7 +782,7 @@ impl App {
                     ctx.copy_text(status.clone());
                 }
             });
-            ui.label(RichText::new("Uses your eligible ChatGPT plan through OpenAI sign-in. Sign in again after restarting OpenCode; no OAuth tokens are saved to disk.").size(11.0).color(FAINT));
+            ui.label(RichText::new("Uses your eligible ChatGPT plan through OpenAI sign-in. Sign in again after restarting OP-SE; no OAuth tokens are saved to disk.").size(11.0).color(FAINT));
         }
         ui.add_space(8.0);
         ui.horizontal(|ui| {
@@ -823,7 +823,7 @@ impl App {
 
     fn settings_indexing(&mut self, ui: &mut egui::Ui, ctx: &egui::Context) {
         ui.heading("Codebase Indexing");
-        ui.label(RichText::new("OpenCode reads every text file in the open folder and builds a search index on this computer, so you can ask where things are and @codebase finds the right code. Nothing is uploaded.").color(MUTED).size(12.0));
+        ui.label(RichText::new("OP-SE reads every text file in the open folder and builds a search index on this computer, so you can ask where things are and @codebase finds the right code. Nothing is uploaded.").color(MUTED).size(12.0));
         ui.add_space(8.0);
         let (running, done, total) = {
             let s = self.index_state.lock().unwrap();
@@ -871,7 +871,7 @@ impl App {
         ui.add_space(6.0);
         ui.label(
             RichText::new(format!(
-                "Files listed in .gitignore, .opencodeignore or .cursorignore are skipped. Up to {MAX_FILES} files; code is packed whole block by whole block into pieces of {CHUNK_MIN} to {CHUNK_MAX} lines, as the original's chunker does."
+                "Files listed in .gitignore, .op-seignore or .cursorignore are skipped. Up to {MAX_FILES} files; code is packed whole block by whole block into pieces of {CHUNK_MIN} to {CHUNK_MAX} lines, as the original's chunker does."
             ))
             .size(11.0)
             .color(FAINT),

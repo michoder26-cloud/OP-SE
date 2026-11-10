@@ -41,7 +41,25 @@ fn file_for(root: &Path) -> PathBuf {
 }
 
 pub fn load(root: &Path) -> Vec<SavedChat> {
-    fs::read_to_string(file_for(root))
+    let path = file_for(root);
+    let legacy = path
+        .parent()
+        .and_then(|p| p.parent())
+        .and_then(|p| p.parent())
+        .map(|p| {
+            p.join("OpenCode")
+                .join("chats")
+                .join(path.file_name().unwrap_or_default())
+        });
+    fs::read_to_string(&path)
+        .or_else(|_| {
+            legacy.map(fs::read_to_string).unwrap_or_else(|| {
+                Err(std::io::Error::new(
+                    std::io::ErrorKind::NotFound,
+                    "No legacy chat history",
+                ))
+            })
+        })
         .ok()
         .and_then(|t| serde_json::from_str(&t).ok())
         .unwrap_or_default()

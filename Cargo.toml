@@ -1,5 +1,5 @@
 [package]
-name = "opencode"
+name = "op-se"
 version = "0.2.0"
 edition = "2021"
 description = "A Rust-native, open-source AI code editor: inline edit, chat, multi-file agent and local codebase indexing"

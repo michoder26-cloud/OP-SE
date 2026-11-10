@@ -48,7 +48,7 @@ pub const SKIP_DIRS: &[&str] = &[
 
 const IGNORE_FILES: &[&str] = &[
     ".gitignore",
-    ".opencodeignore",
+    ".op-seignore",
     ".cursorignore",
     ".cursorindexingignore",
 ];
@@ -95,7 +95,7 @@ pub struct Hit {
     pub snippet: String,
 }
 
-/// Ignore rules from .gitignore / .opencodeignore / .cursorignore at the workspace root.
+/// Ignore rules from .gitignore / .op-seignore / .cursorignore at the workspace root.
 #[derive(Clone, Default)]
 pub struct Ignore {
     patterns: Vec<(String, bool, bool)>, // (pattern, anchored, dir_only)

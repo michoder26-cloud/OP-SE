@@ -693,7 +693,7 @@ impl App {
         ui.vertical_centered(|ui| {
             ui.add_space(ui.available_height() * 0.22);
             ui.label(
-                RichText::new("OpenCode")
+                RichText::new("OP-SE")
                     .size(42.0)
                     .strong()
                     .color(Color32::from_rgb(0x30, 0x30, 0x30)),

@@ -334,7 +334,7 @@ impl App {
         }
         app.agents_view = app.settings.start_in_agents;
         app.refresh_history_cache();
-        if let Ok(demo) = std::env::var("OPENCODE_DEMO") {
+        if let Ok(demo) = std::env::var("OP_SE_DEMO") {
             app.demo(&demo);
         }
         app
@@ -385,9 +385,9 @@ impl App {
                     );
                     user.mode = Mode::Agent;
                     self.chats[0].messages.push(user);
-                    let new_main = text.replacen("\"--help\" | \"-h\" => {", "\"--version\" => {\n                println!(\"opencode {}\", env!(\"CARGO_PKG_VERSION\"));\n                return Ok(());\n            }\n            \"--help\" | \"-h\" => {", 1);
+                    let new_main = text.replacen("\"--help\" | \"-h\" => {", "\"--version\" => {\n                println!(\"op-se {}\", env!(\"CARGO_PKG_VERSION\"));\n                return Ok(());\n            }\n            \"--help\" | \"-h\" => {", 1);
                     let answer = format!(
-                        "I'll add a `--version` flag to the argument parser and mention it in the README.\n\n<<<FILE {rel}\n{new_main}\n>>>END\n<<<FILE README.md\n# OpenCode\n\nRun `opencode --version` to see the version.\n>>>END\n\nBoth files are ready for review."
+                        "I'll add a `--version` flag to the argument parser and mention it in the README.\n\n<<<FILE {rel}\n{new_main}\n>>>END\n<<<FILE README.md\n# OP-SE\n\nRun `op-se --version` to see the version.\n>>>END\n\nBoth files are ready for review."
                     );
                     let mut reply = Msg::user(answer, Mode::Agent, vec![]);
                     reply.role = Role::Assistant;
@@ -1483,7 +1483,7 @@ impl App {
 
     fn system_prompt(&self, mode: Mode) -> String {
         let mut s = String::from(
-            "You are OpenCode, an AI pair programmer inside a code editor. The user works in the \
+            "You are OP-SE, an AI pair programmer inside a code editor. The user works in the \
              workspace described below. Answer in the same language the user writes in (if they write \
              Thai, answer in Thai; keep code identifiers as they are). When you point at code, name the \
              file and line like src/app.rs:42. Use fenced code blocks with a language.\n",

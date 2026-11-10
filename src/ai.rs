@@ -190,7 +190,7 @@ pub fn stream(
             );
         }
         if settings.provider == Provider::OpenRouter {
-            call = call.set("X-Title", "OpenCode");
+            call = call.set("X-Title", "OP-SE");
         }
         call.send_json(json!({
             "model": settings.model.trim(),
@@ -354,8 +354,30 @@ mod tests {
         let port = listener.local_addr().unwrap().port();
         std::thread::spawn(move || {
             let (mut sock, _) = listener.accept().unwrap();
-            let mut buf = [0u8; 65536];
-            let _ = sock.read(&mut buf);
+            sock.set_read_timeout(Some(Duration::from_secs(5))).unwrap();
+            let mut request = Vec::new();
+            let mut buf = [0u8; 4096];
+            loop {
+                let n = sock.read(&mut buf).unwrap();
+                if n == 0 {
+                    break;
+                }
+                request.extend_from_slice(&buf[..n]);
+                if let Some(headers_end) = request.windows(4).position(|w| w == b"\r\n\r\n") {
+                    let headers = String::from_utf8_lossy(&request[..headers_end]);
+                    let length = headers
+                        .lines()
+                        .find_map(|line| {
+                            line.to_ascii_lowercase()
+                                .strip_prefix("content-length:")
+                                .and_then(|value| value.trim().parse::<usize>().ok())
+                        })
+                        .unwrap_or(0);
+                    if request.len() >= headers_end + 4 + length {
+                        break;
+                    }
+                }
+            }
             let reply = format!(
                 "HTTP/1.1 200 OK\r\ncontent-type: text/event-stream\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{}",
                 body.len(),

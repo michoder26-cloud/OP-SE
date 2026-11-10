@@ -104,11 +104,24 @@ impl Settings {
             .or_else(|| std::env::var_os("XDG_CONFIG_HOME").map(PathBuf::from))
             .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))
             .unwrap_or_else(|| PathBuf::from("."));
-        base.join("OpenCode").join("settings.json")
+        base.join("OP-SE").join("settings.json")
     }
 
     pub fn load() -> Self {
-        fs::read_to_string(Self::path())
+        let path = Self::path();
+        let legacy = path
+            .parent()
+            .and_then(|p| p.parent())
+            .map(|p| p.join("OpenCode").join("settings.json"));
+        fs::read_to_string(&path)
+            .or_else(|_| {
+                legacy.map(fs::read_to_string).unwrap_or_else(|| {
+                    Err(std::io::Error::new(
+                        std::io::ErrorKind::NotFound,
+                        "No legacy settings",
+                    ))
+                })
+            })
             .ok()
             .and_then(|text| serde_json::from_str(&text).ok())
             .unwrap_or_default()

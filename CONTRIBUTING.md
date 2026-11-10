@@ -1,6 +1,6 @@
-# Contributing to OpenCode
+# Contributing to OP-SE
 
-OpenCode is an early Rust desktop editor. Bug reports, documentation fixes,
+OP-SE is an early Rust desktop editor. Bug reports, documentation fixes,
 tests, and focused pull requests are welcome.
 
 1. Open an issue describing the problem or proposed feature. For a small fix,

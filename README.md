@@ -1,6 +1,6 @@
-# OpenCode (Rust editor)
+# OP-SE (Rust editor)
 
-OpenCode is an open-source, local-first AI code editor built entirely in Rust.
+OP-SE is an open-source, local-first AI code editor built entirely in Rust.
 It uses `egui/eframe` for the desktop window: there is no browser, webview,
 HTML, TypeScript, Electron, or Tauri layer.
 
@@ -25,15 +25,15 @@ Ollama can be used with a local model.
 40-line chunks and indexed on your computer (BM25 ranking, identifiers split
 on camelCase and snake_case). Questions in any language are turned into code
 keywords by your AI model first, so Thai questions find English code. Files in
-`.gitignore`, `.opencodeignore` or `.cursorignore` are skipped; unchanged files
+`.gitignore`, `.op-seignore` or `.cursorignore` are skipped; unchanged files
 are reused when you re-sync. Nothing is uploaded.
 
-**AI accounts.** OpenCode can use an eligible ChatGPT Plus or Pro subscription
+**AI accounts.** OP-SE can use an eligible ChatGPT Plus or Pro subscription
 through OpenAI's official [Sign in with ChatGPT for open-source apps](https://developers.openai.com/siwc/token-sharing-open-source)
 flow. In Settings, choose **ChatGPT subscription** and click **Continue with
-ChatGPT**. The browser handles sign-in and consent; no API key is needed. OpenCode
+ChatGPT**. The browser handles sign-in and consent; no API key is needed. OP-SE
 keeps OAuth tokens only in memory, so sign in again after restarting it. It
-stores the non-secret client and host IDs under `%APPDATA%\OpenCode` so later
+stores the non-secret client and host IDs under `%APPDATA%\OP-SE` so later
 sign-ins reuse the same registration. The model picker loads models from the
 signed-in account. Plan usage is subject to OpenAI's eligibility and limits.
 
@@ -53,15 +53,15 @@ for the current implementation and ways to help.
 3. Press **Ctrl+,** and sign in with ChatGPT, add an API key, or pick Ollama
    to stay fully offline.
 
-`opencode --screenshot out.png` opens the window without taking focus, draws it
+`op-se --screenshot out.png` opens the window without taking focus, draws it
 and saves a picture (used for automated checks).
 
 ## Safety model
 
-OpenCode only reads from a folder that you open. It refuses any write whose
+OP-SE only reads from a folder that you open. It refuses any write whose
 path would leave that workspace, and no AI change reaches disk until you
 accept it. The API key lives in your user settings folder
-(`%APPDATA%\OpenCode\settings.json`), never in the project. Only the files you
+(`%APPDATA%\OP-SE\settings.json`), never in the project. Only the files you
 attach (the current file, mentions, codebase search hits) are sent to the AI
 provider you choose.
 

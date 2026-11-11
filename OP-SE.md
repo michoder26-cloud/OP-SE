@@ -34,5 +34,6 @@ Click the OP-SE AI icon in the Activity Bar. Configure `OP-SE AI: Base URL` and
 Palette when your provider requires a key. The default URL targets local Ollama's
 OpenAI-compatible endpoint. A ChatGPT or Claude subscription is not an API key
 and is not connected to this Code OSS fork yet.
+Select code in a workspace file and run `OP-SE AI: Edit Selection` from the Command Palette to generate a diff. Inspect it before choosing Apply or Discard. The command refuses to apply a result if the file changed while the model was working or during review. This path has not yet been tested through the visible UI.
 Use a workspace you trust. The current fork has not passed an installer or
 extension redistribution audit.

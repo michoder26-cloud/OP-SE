@@ -14,8 +14,10 @@ Status means **ยังไม่เริ่ม** (not started), **กำลั
 | Diagnostics, autocomplete, go-to-definition | กำลังทำ | Language services are in the base; check a real supported project and installed language extensions |
 | Debugger and extensions | กำลังทำ | Base workbench exists; redistribution audit and runtime checks remain |
 | OP-SE AI chat and selected-code context | กำลังทำ | Existing OP-SE AI extension loads in the development host; provider response not yet verified end to end |
-| Streaming, cancellation, timeout, retry, provider errors | กำลังทำ | Extension has an OpenAI-compatible SSE path and cancellation; runtime and failure tests remain |
-| Inline diff accept/reject, multi-file agent, tool approvals | ยังไม่เริ่ม | No Code OSS integration yet |
+| Streaming, cancellation, timeout, provider errors | กำลังทำ | Four adapter tests passed and a real local Ollama response streamed `OK`; webview end-to-end behavior remains unchecked |
+| Retry policy | ยังไม่เริ่ม | Must retry only bounded transient failures |
+| Inline diff accept/reject | กำลังทำ | Edit Selection command generates a full-file diff and checks for intervening edits before applying; UI acceptance test remains |
+| Multi-file agent and tool approvals | ยังไม่เริ่ม | No Code OSS integration yet |
 | Checkpoint and rollback preserving user edits | ยังไม่เริ่ม | Requires overlap and conflict tests |
 | Lexical index, ignore/secret filters, provenance, token budget | ยังไม่เริ่ม | Rust prototype is separate; integration absent |
 | Semantic retrieval | ยังไม่เริ่ม | Add after lexical retrieval is measured |

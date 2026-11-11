@@ -7,23 +7,26 @@
   "license": "MIT",
   "engines": { "vscode": "^1.104.0" },
   "main": "./extension.js",
-  "activationEvents": ["onView:opSeAi.chat", "onCommand:opSeAi.open"],
+  "activationEvents": ["onView:opSeAi.chat", "onCommand:opSeAi.open", "onCommand:opSeAi.inlineEdit"],
   "contributes": {
     "viewsContainers": { "activitybar": [{ "id": "opSeAi", "title": "OP-SE AI", "icon": "media/ai.svg" }] },
     "views": { "opSeAi": [{ "id": "opSeAi.chat", "name": "Chat", "type": "webview" }] },
     "commands": [
       { "command": "opSeAi.open", "title": "OP-SE AI: Open Chat" },
-      { "command": "opSeAi.setKey", "title": "OP-SE AI: Set API Key" }
+      { "command": "opSeAi.setKey", "title": "OP-SE AI: Set API Key" },
+      { "command": "opSeAi.inlineEdit", "title": "OP-SE AI: Edit Selection" }
     ],
     "menus": { "commandPalette": [
       { "command": "opSeAi.open" },
-      { "command": "opSeAi.setKey" }
+      { "command": "opSeAi.setKey" },
+      { "command": "opSeAi.inlineEdit" }
     ] },
     "configuration": {
       "title": "OP-SE AI",
       "properties": {
         "opSeAi.baseUrl": { "type": "string", "default": "http://127.0.0.1:11434/v1", "description": "OpenAI-compatible provider URL. Workspace context is sent to this endpoint when you submit a chat." },
-        "opSeAi.model": { "type": "string", "default": "", "description": "Model name configured on the provider." }
+        "opSeAi.model": { "type": "string", "default": "", "description": "Model name configured on the provider." },
+        "opSeAi.timeoutMs": { "type": "number", "default": 120000, "minimum": 1000, "maximum": 300000, "description": "Maximum time in milliseconds for an AI chat request." }
       }
     }
   }

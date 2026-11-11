@@ -1,6 +1,6 @@
 # OP-SE Code OSS fork
 
-This checkout is based on the MIT-licensed `microsoft/vscode` source at upstream commit `9192ec48`. The product name and application identifiers are set in `product.json`. The editor, workspace, terminal, Git, debug and extension workbench come from Code OSS; OP-SE AI workbench integration remains to be built.
+This checkout is based on the MIT-licensed `microsoft/vscode` source at upstream commit `9192ec48`. The product name and application identifiers are set in `product.json`. The editor, workspace, terminal, Git, debug and extension workbench come from Code OSS. An OP-SE AI sidebar extension now provides an initial chat interface.
 
 This is a separate checkout from the earlier Rust prototype at `C:\Users\TKTF\Desktop\OP-code`. See `docs/op-se/architecture.md`, `feature-matrix.md`, `providers.md`, `business-platform.md`, `rea-evidence.md`, and `test-report.md` for the decision, current status and verification limits.
 
@@ -29,5 +29,10 @@ After the build is ready, the PowerShell wrapper validates paths and opens an ex
 
 The `scripts/code.bat` launcher may run prelaunch again. To use an already
 prepared build, set `VSCODE_SKIP_PRELAUNCH=1` in the same shell before launching.
+Click the OP-SE AI icon in the Activity Bar. Configure `OP-SE AI: Base URL` and
+`OP-SE AI: Model` in Settings, then use `OP-SE AI: Set API Key` from the Command
+Palette when your provider requires a key. The default URL targets local Ollama's
+OpenAI-compatible endpoint. A ChatGPT or Claude subscription is not an API key
+and is not connected to this Code OSS fork yet.
 Use a workspace you trust. The current fork has not passed an installer or
 extension redistribution audit.

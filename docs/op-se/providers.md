@@ -1,12 +1,8 @@
 # Model providers
 
-The Code OSS fork does not yet include OP-SE's AI adapter. The separate Rust
-prototype supports OpenAI-compatible endpoints, Anthropic API, OpenRouter,
-Ollama, and the official Sign in with ChatGPT flow. That prototype stores API
-keys in a local JSON settings file; this must move to OS secure storage before
-it becomes the production AI integration.
+The Code OSS fork includes an initial OP-SE AI sidebar extension at `extensions/op-se-ai`. It sends chat requests to a user-configured OpenAI-compatible `/chat/completions` endpoint, reads SSE response chunks, supports cancellation and a 60-second timeout, and stores an optional API key in Code OSS SecretStorage. The request path and provider response have not yet passed an end-to-end test. The separate Rust prototype supports OpenAI-compatible endpoints, Anthropic API, OpenRouter, Ollama, and the official Sign in with ChatGPT flow. Its JSON API key storage must not be carried into production.
 
-Production adapter contract to implement in the fork:
+Production adapter contract to complete in the fork:
 
 - Stream deltas and explicit terminal success/failure.
 - Cancel an in-flight request and enforce connect/read deadlines.

@@ -19,12 +19,14 @@
 - `scripts/test-integration.bat --suite api-folder --grep findTextInFiles` completed with exit code 0 and **2 passing** tests, including cancellation.
 - `scripts/test-integration.bat --suite git --grep "git smoke test"` completed with exit code 0 and **5 passing**, **2 pending** tests against a temporary Git repository. Passing cases covered working-tree status, opening a diff editor, staging, committing, and commit-message encoding.
 - REA CLI parsed one selected Cursor extension bundle with zero parse failures. The large workbench bundle was skipped after a 1024 MiB worker heap exhaustion; details in `rea-evidence.md`.
+- Previously launched an extension development host. Its accessibility tree displayed the OP-SE AI Activity Bar icon, and the extension host log identified `op-se.op-se-ai` as loaded.
 
 ## Not yet verified
 
 - Manual keyboard edit and disk save in the visible OP-SE window. Windows computer-use capture timed out, so the API tests above are the evidence for save behavior.
 - Search/replace and Git controls in the visible window, debugger, extension installation, language services, and terminal command exit code in the branded window.
-- OP-SE AI workflows in the Code OSS fork, including streaming cancellation, inline diff, agent edits, rollback, provider/network failures, and secret handling.
+- Opening the OP-SE AI chat webview and an end-to-end provider response. The existing extension's JavaScript syntax and package JSON were checked previously, but network behavior has not been verified.
+- AI inline diff, agent edits, rollback, provider/network failures, and secret handling beyond SecretStorage.
 - Installer build and redistribution compliance. No package is published.
 
 The nine passing Rust prototype tests reported earlier are separate from this Code OSS fork and do not establish these results. No mock result is reported as a feature pass.

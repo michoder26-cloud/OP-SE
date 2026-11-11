@@ -2,9 +2,9 @@
 
 OP-SE is an open-source desktop IDE in development, built from the MIT-licensed
 Code OSS source. The local editor and self-hosted path are intended to be free;
-managed hosting and support would be optional. The first Windows build is being
-verified. AI features from the separate Rust prototype are not yet integrated
-into this fork.
+managed hosting and support would be optional. The Windows development build
+now includes an OP-SE AI sidebar for OpenAI-compatible chat. It is an initial
+integration; inline edits, agent mode and subscription sign-in are still pending.
 
 See [getting started](OP-SE.md), the [architecture decision](docs/op-se/architecture.md),
 [feature matrix](docs/op-se/feature-matrix.md), and [test report](docs/op-se/test-report.md).

@@ -13,13 +13,13 @@ Status means **ยังไม่เริ่ม** (not started), **กำลั
 | Git status, diff, staging, commit | ใช้งานได้ | Git smoke suite passed five tests against a temporary repository; manual source-control UI check remains |
 | Diagnostics, autocomplete, go-to-definition | กำลังทำ | Language services are in the base; check a real supported project and installed language extensions |
 | Debugger and extensions | กำลังทำ | Base workbench exists; redistribution audit and runtime checks remain |
-| OP-SE AI chat and explicit workspace context | ยังไม่เริ่ม | Rust prototype is separate; Code OSS integration absent |
-| Streaming, cancellation, timeout, retry, provider errors | ยังไม่เริ่ม | Provider adapter contract documented in `providers.md` |
+| OP-SE AI chat and selected-code context | กำลังทำ | Existing OP-SE AI extension loads in the development host; provider response not yet verified end to end |
+| Streaming, cancellation, timeout, retry, provider errors | กำลังทำ | Extension has an OpenAI-compatible SSE path and cancellation; runtime and failure tests remain |
 | Inline diff accept/reject, multi-file agent, tool approvals | ยังไม่เริ่ม | No Code OSS integration yet |
 | Checkpoint and rollback preserving user edits | ยังไม่เริ่ม | Requires overlap and conflict tests |
 | Lexical index, ignore/secret filters, provenance, token budget | ยังไม่เริ่ม | Rust prototype is separate; integration absent |
 | Semantic retrieval | ยังไม่เริ่ม | Add after lexical retrieval is measured |
-| OS secure credential storage | ยังไม่เริ่ม | Rust prototype's JSON API key storage cannot be carried into production |
+| OS secure credential storage | กำลังทำ | Code OSS extension uses SecretStorage for API keys; Rust prototype remains separate |
 | Self-hosted service | ยังไม่เริ่ม | Original architecture in `business-platform.md`; no deployment yet |
 | Optional managed hosting, billing, and support | ยังไม่เริ่ม | Design only; no backend code or sales flow |
 | Windows installer | ติดข้อจำกัด | Development build runs; redistribution and bundled service audit required before publishing |

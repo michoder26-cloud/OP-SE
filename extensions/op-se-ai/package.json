@@ -1,0 +1,30 @@
+{
+  "name": "op-se-ai",
+  "displayName": "OP-SE AI",
+  "description": "Workspace-aware AI chat for OP-SE",
+  "version": "0.1.0",
+  "publisher": "op-se",
+  "license": "MIT",
+  "engines": { "vscode": "^1.104.0" },
+  "main": "./extension.js",
+  "activationEvents": ["onView:opSeAi.chat", "onCommand:opSeAi.open"],
+  "contributes": {
+    "viewsContainers": { "activitybar": [{ "id": "opSeAi", "title": "OP-SE AI", "icon": "media/ai.svg" }] },
+    "views": { "opSeAi": [{ "id": "opSeAi.chat", "name": "Chat", "type": "webview" }] },
+    "commands": [
+      { "command": "opSeAi.open", "title": "OP-SE AI: Open Chat" },
+      { "command": "opSeAi.setKey", "title": "OP-SE AI: Set API Key" }
+    ],
+    "menus": { "commandPalette": [
+      { "command": "opSeAi.open" },
+      { "command": "opSeAi.setKey" }
+    ] },
+    "configuration": {
+      "title": "OP-SE AI",
+      "properties": {
+        "opSeAi.baseUrl": { "type": "string", "default": "http://127.0.0.1:11434/v1", "description": "OpenAI-compatible provider URL. Workspace context is sent to this endpoint when you submit a chat." },
+        "opSeAi.model": { "type": "string", "default": "", "description": "Model name configured on the provider." }
+      }
+    }
+  }
+}

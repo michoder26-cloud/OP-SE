@@ -1,4 +1,4 @@
-# Test report (2026-11-10)
+# Test report (2026-11-11)
 
 ## Executed
 
@@ -12,12 +12,21 @@
   TypeScript compilation reported zero errors. This verifies compilation,
   not desktop behavior.
 - Started `node build/lib/preLaunch.ts` to prepare the Electron runtime.
+- Previously launched the Code OSS development build and verified workspace
+  edit/save and integrated terminal in a smoke project.
+- Added the OP-SE AI extension. `node --check` accepted its JavaScript and
+  PowerShell parsed its package manifest as JSON.
+- Launched the extension development host. Its accessibility tree displayed
+  the OP-SE AI Activity Bar icon, and the extension host log identified
+  `op-se.op-se-ai` as loaded.
 
 ## Not yet verified
 
-- Code OSS desktop compilation, launch, workspace edit/save and terminal.
-- Git, search, debugger, extension loading in the branded build.
-- AI workflows in the Code OSS fork, installer, and redistribution compliance.
+- Opening the chat webview itself and an end-to-end provider response. UI
+  automation could observe the icon but could not click it due unavailable
+  input geometry in this session.
+- Git, search and debugger in the branded build.
+- AI inline edit, agent workflows, installer, and redistribution compliance.
 
 The nine passing Rust prototype tests reported earlier are separate from this
 Code OSS fork and do not establish these results.

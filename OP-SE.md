@@ -27,6 +27,8 @@ After the build is ready, the PowerShell wrapper validates paths and opens an ex
 ./scripts/op-se-dev.ps1 'C:\path\to\your\workspace' -SkipPrelaunch
 ```
 
+The launcher copies the OP-SE AI extension into the development profile so its icon appears in the normal app. To test the extension directly from source, add `-AiDevelopmentHost`. The separate extension development window may open without the folder; choose **File > Open Folder** there and select your workspace.
+
 The `scripts/code.bat` launcher may run prelaunch again. To use an already
 prepared build, set `VSCODE_SKIP_PRELAUNCH=1` in the same shell before launching.
 Click the OP-SE AI icon in the Activity Bar. Configure `OP-SE AI: Base URL` and

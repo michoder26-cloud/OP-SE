@@ -8,6 +8,8 @@ development launcher installs it locally as described in `OP-SE.md`. Inline edit
 implemented but not yet verified through the UI; agent mode and subscription
 sign-in remain pending.
 
+An optional [Rust self-hosted control plane](services/op-se-control-plane/README.md) now provides local organization, member, entitlement, and usage APIs backed by SQLite. The IDE runs without this service. Managed billing and support remain future work.
+
 See [getting started](OP-SE.md), the [architecture decision](docs/op-se/architecture.md),
 [feature matrix](docs/op-se/feature-matrix.md), and [test report](docs/op-se/test-report.md).
 The original upstream README follows for attribution and contributor context.

@@ -1,4 +1,4 @@
-# OP-SE feature matrix (2026-11-11)
+# OP-SE feature matrix (updated 2026-11-12)
 
 Status means **ยังไม่เริ่ม** (not started), **กำลังทำ** (in progress), **ใช้งานได้** (usable in the stated tested scope), or **ติดข้อจำกัด** (blocked). Code OSS source presence alone does not count as an OP-SE test pass. Cursor public evidence and REA limits are in `rea-evidence.md`.
 
@@ -22,8 +22,9 @@ Status means **ยังไม่เริ่ม** (not started), **กำลั
 | Lexical index, ignore/secret filters, provenance, token budget | ยังไม่เริ่ม | Rust prototype is separate; integration absent |
 | Semantic retrieval | ยังไม่เริ่ม | Add after lexical retrieval is measured |
 | OS secure credential storage | กำลังทำ | Code OSS extension uses SecretStorage for API keys; Rust prototype remains separate |
-| Self-hosted service | ยังไม่เริ่ม | Original architecture in `business-platform.md`; no deployment yet |
+| Self-hosted control plane | กำลังทำ | Rust HTTP API stores organizations, members, entitlements, and idempotent usage events in SQLite; two integration tests and loopback HTTP smoke passed. Desktop management UI is not connected yet |
+| Windows control-plane package | ใช้งานได้ | Release build and local ZIP with executable, README, example settings, and MIT license verified |
 | Optional managed hosting, billing, and support | ยังไม่เริ่ม | Design only; no backend code or sales flow |
 | Windows installer | ติดข้อจำกัด | Development build runs; redistribution and bundled service audit required before publishing |
 
-The current development build is a Code OSS fork, not a finished Cursor replacement. The separate Rust prototype remains a reference for later AI work and is not counted as integrated functionality.
+The current development build is a Code OSS fork, not a finished Cursor replacement. The earlier Rust prototype is not counted as integrated functionality; its old working tree currently contains deleted files and has not been restored.

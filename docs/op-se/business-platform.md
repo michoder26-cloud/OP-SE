@@ -4,6 +4,8 @@
 
 The desktop IDE and self-hosted deployment must work without an OP-SE account, license server, or payment. Users own their workspace and provider credentials. Optional managed hosting and support are separate purchased services. This is an original design informed by the publicly documented product categories in [Cursor pricing](https://prod.cursor.com/help/account-and-billing/pricing) and [team setup](https://prod.cursor.com/help/account-and-billing/teams-setup); it does not claim to reproduce Cursor's private backend.
 
+Cursor's public [Admin API](https://prod.cursor.com/docs/account/teams/admin-api) shows that organizations, member administration, usage, spending, and audit events are product surfaces. The current self-hosted OP-SE slice implements only local organizations, members, free entitlements, and idempotent usage events. The desktop IDE does not send telemetry to it and has no account gate.
+
 ## Proposed hosted service
 
 | Component | Responsibility | Self-hosted behavior |
@@ -17,6 +19,8 @@ The desktop IDE and self-hosted deployment must work without an OP-SE account, l
 
 Billing webhooks must be authenticated and idempotent. Entitlements should derive from a durable subscription state, not a mutable client flag. Usage events need a stable event ID and reconciliation path; the client must show the amount and destination before any provider-backed request. Hosted failures must not disable the offline editor. Keep payment data at the payment provider and avoid storing card data in OP-SE.
 
+For a future managed purchase, the proposed state flow is `requested → awaiting_payment → active → past_due → cancelled`. A verified payment webhook would move a hosted organization between states and create an immutable ledger event. The browser or desktop client must never be able to set its own paid entitlement. This state flow is an OP-SE design proposal; it is not a claim about Cursor's internal implementation and is not implemented yet.
+
 ## Development sequence
 
 1. Complete the local IDE slice and verify workspace, edit/save, terminal, search, and Git in the branded build.
@@ -25,4 +29,4 @@ Billing webhooks must be authenticated and idempotent. Entitlements should deriv
 4. Define a self-hosted service deployment and API contracts. Add optional managed hosting only after the local product is reliable.
 5. Implement organization identity, metering, billing adapter, and support operations behind hosted-only boundaries. Test webhook replay, seat changes, cancellation, and offline continuity before selling service.
 
-No hosted service or billing code exists yet.
+The first self-hosted control plane is implemented in `services/op-se-control-plane`: organizations, members, free self-hosted entitlements, and idempotent usage events backed by SQLite. It is a local administrative API with one token, not a managed multi-tenant service. Hosted provisioning, payment webhooks, invoices, and support operations remain unimplemented.

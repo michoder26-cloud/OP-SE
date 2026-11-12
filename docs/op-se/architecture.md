@@ -1,4 +1,4 @@
-# OP-SE architecture decision (updated 2026-11-11)
+# OP-SE architecture decision (updated 2026-11-12)
 
 ## Decision
 
@@ -33,6 +33,8 @@ the product shell to Code OSS.
 The self-hosted source and local features remain free under their licenses.
 Managed hosting and support are optional services with separate contracts.
 The client must work without OP-SE account registration. BYO model credentials
-and local models remain options. Any future billing, team administration, and
-usage metering belong to the optional hosted service, not the offline IDE.
+and local models remain options. The optional self-hosted Rust control plane
+stores organizations, members, and explicitly submitted usage events locally.
+Payment processing and hosted service entitlements belong only to a future
+managed deployment; they must never gate the offline IDE.
 See `business-platform.md` for the original service design and `rea-evidence.md` for Cursor evidence limits.

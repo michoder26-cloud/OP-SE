@@ -1,4 +1,4 @@
-# Cursor evidence and limits (2026-11-11)
+# Cursor evidence and limits (updated 2026-11-12)
 
 ## Method
 
@@ -10,8 +10,9 @@ The second run selected `extensions/cursor-deeplink/dist/main.js` (905,436 bytes
 
 ## Public product facts
 
-- Cursor's [pricing documentation](https://prod.cursor.com/help/account-and-billing/pricing) describes free and paid individual tiers, team seats, usage allowances, and Enterprise invoice billing. Plan names and prices may change.
+- Cursor's [pricing documentation](https://prod.cursor.com/help/account-and-billing/pricing), checked on 2026-11-12, describes The X Subscription for new customers, free and paid tiers, team seats, usage pools, prepaid credit for some third-party models, Enterprise invoice billing, and separate legacy Cursor plans. Plan names, entitlements, and prices can change.
 - Cursor's [team setup documentation](https://prod.cursor.com/help/account-and-billing/teams-setup) describes a team dashboard, centralized billing, invites, Admin/Member roles, SSO, and analytics.
+- Its public [Admin API reference](https://prod.cursor.com/docs/account/teams/admin-api) exposes organization/member, usage event, spending, and audit-log API categories. This is evidence of public capabilities, not the private storage or payment implementation.
 
 ## Unknowns
 

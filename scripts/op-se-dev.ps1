@@ -2,7 +2,7 @@ param(
 	[Parameter(Position = 0)]
 	[string]$Workspace = (Get-Location).Path,
 	[switch]$SkipPrelaunch,
-	[switch]$AiDevelopmentHost,
+	[switch]$AiDevelopmentHost = $true,
 	[switch]$CheckOnly
 )
 
@@ -40,14 +40,6 @@ Write-Host "AI extension: $aiExtension"
 if ($CheckOnly) {
 	return
 }
-
-$manifest = Get-Content -LiteralPath (Join-Path $aiExtension 'package.json') -Raw | ConvertFrom-Json
-$installedExtension = Join-Path (Join-Path $env:USERPROFILE '.op-se-dev\extensions') "$($manifest.publisher).$($manifest.name)-$($manifest.version)"
-New-Item -ItemType Directory -Path (Join-Path $installedExtension 'media') -Force | Out-Null
-foreach ($relativePath in @('package.json', 'extension.js', 'provider.js', 'media\ai.svg')) {
-	Copy-Item -LiteralPath (Join-Path $aiExtension $relativePath) -Destination (Join-Path $installedExtension $relativePath) -Force
-}
-Write-Host "AI installed for OP-SE Dev: $installedExtension"
 
 if ($SkipPrelaunch) {
 	$env:VSCODE_SKIP_PRELAUNCH = '1'

@@ -22,7 +22,22 @@ function activate(context) {
     vscode.window.showInformationMessage(key ? 'OP-SE AI key saved securely.' : 'OP-SE AI key removed.');
   }));
 
-  context.subscriptions.push(vscode.commands.registerCommand('opSeAi.open', () => vscode.commands.executeCommand('workbench.view.extension.opSeAi')));
+  const openChat = async () => {
+    await vscode.commands.executeCommand('workbench.view.extension.opSeAi');
+    await vscode.commands.executeCommand('opSeAi.chat.focus');
+  };
+  context.subscriptions.push(vscode.commands.registerCommand('opSeAi.open', openChat));
+  if (!context.globalState.get('opSeAi.chatOpenedOnce')) {
+    const openTimer = setTimeout(async () => {
+      try {
+        await openChat();
+        await context.globalState.update('opSeAi.chatOpenedOnce', true);
+      } catch (error) {
+        console.warn('OP-SE AI chat did not open on startup:', error);
+      }
+    }, 1000);
+    context.subscriptions.push({ dispose: () => clearTimeout(openTimer) });
+  }
   context.subscriptions.push(vscode.commands.registerCommand('opSeAi.inlineEdit', async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor || editor.selection.isEmpty || !vscode.workspace.getWorkspaceFolder(editor.document.uri)) {
@@ -108,6 +123,30 @@ function activate(context) {
     view.webview.html = html();
     view.onDidDispose(() => { activeRequest?.abort(); view = undefined; }, null, context.subscriptions);
     view.webview.onDidReceiveMessage(async message => {
+      if (message.type === 'ready') {
+        const config = vscode.workspace.getConfiguration('opSeAi');
+        view?.webview.postMessage({ type: 'settings', baseUrl: config.get('baseUrl', ''), model: config.get('model', '') });
+        return;
+      }
+      if (message.type === 'setKey') {
+        await vscode.commands.executeCommand('opSeAi.setKey');
+        return;
+      }
+      if (message.type === 'saveSettings') {
+        const baseUrl = String(message.baseUrl || '').trim();
+        const model = String(message.model || '').trim();
+        try {
+          completionUrl(baseUrl);
+          if (!model) throw new Error('Enter a model name.');
+          const config = vscode.workspace.getConfiguration('opSeAi');
+          await config.update('baseUrl', baseUrl, vscode.ConfigurationTarget.Global);
+          await config.update('model', model, vscode.ConfigurationTarget.Global);
+          view?.webview.postMessage({ type: 'settingsSaved', baseUrl, model });
+        } catch (error) {
+          view?.webview.postMessage({ type: 'error', text: String(error.message || error) });
+        }
+        return;
+      }
       if (message.type === 'cancel') { activeRequest?.abort(); return; }
       if (message.type !== 'send' || activeRequest) return;
       const prompt = String(message.prompt || '').trim();
@@ -152,7 +191,35 @@ function activate(context) {
 
 function html() {
   const nonce = Math.random().toString(36).slice(2);
-  return `<!doctype html><html><head><meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';"><style nonce="${nonce}">body{font:13px var(--vscode-font-family);color:var(--vscode-foreground);background:var(--vscode-editor-background);padding:16px}h2{margin:0 0 12px}textarea{box-sizing:border-box;width:100%;height:90px;resize:vertical;background:var(--vscode-input-background);color:var(--vscode-input-foreground);border:1px solid var(--vscode-input-border);padding:8px}button{padding:7px 12px;margin:8px 6px 0 0;background:var(--vscode-button-background);color:var(--vscode-button-foreground);border:0;cursor:pointer}button:disabled{opacity:.5}#answer{white-space:pre-wrap;line-height:1.5;margin-top:16px}#status{opacity:.7;font-size:12px}</style></head><body><h2>OP-SE AI</h2><p>Ask about the current workspace file. Select code first to send only that selection.</p><textarea id="prompt" aria-label="Question"></textarea><div><button id="send">Send</button><button id="cancel" disabled>Cancel</button></div><p id="status">Set provider URL and model in Settings. API keys: “OP-SE AI: Set API Key”.</p><div id="answer" role="log"></div><script nonce="${nonce}">const vscode=acquireVsCodeApi();const p=document.getElementById('prompt'),s=document.getElementById('send'),c=document.getElementById('cancel'),a=document.getElementById('answer'),st=document.getElementById('status');s.onclick=()=>{a.textContent='';vscode.postMessage({type:'send',prompt:p.value})};c.onclick=()=>vscode.postMessage({type:'cancel'});window.addEventListener('message',e=>{const m=e.data;if(m.type==='start'){s.disabled=true;c.disabled=false;st.textContent='Sending context: '+m.context}else if(m.type==='chunk'){a.textContent+=m.text}else if(m.type==='done'||m.type==='error'||m.type==='cancelled'){s.disabled=false;c.disabled=true;st.textContent=m.type==='done'?'Done':m.text}})</script></body></html>`;
+  return `<!doctype html>
+<html><head><meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
+<style nonce="${nonce}">
+body{box-sizing:border-box;margin:0;padding:16px;height:100vh;display:flex;flex-direction:column;gap:12px;font:13px var(--vscode-font-family);color:var(--vscode-foreground);background:var(--vscode-editor-background)}
+h2,p{margin:0}h2{font-size:16px}p,small{line-height:1.45;color:var(--vscode-descriptionForeground)}
+label{display:block;margin:8px 0 4px}input,textarea{box-sizing:border-box;width:100%;padding:8px;background:var(--vscode-input-background);color:var(--vscode-input-foreground);border:1px solid var(--vscode-input-border);font:inherit}
+textarea{min-height:90px;resize:vertical}button{padding:7px 12px;margin:0 6px 0 0;background:var(--vscode-button-background);color:var(--vscode-button-foreground);border:0;cursor:pointer}button:disabled{opacity:.5}
+details{padding:10px;border:1px solid var(--vscode-panel-border)}summary{cursor:pointer}#settingsActions{margin-top:10px}#answer{flex:1;overflow:auto;white-space:pre-wrap;line-height:1.5}#status{min-height:18px}
+</style></head><body>
+<h2>OP-SE AI</h2><p>Ask about your workspace. Select code in the editor to include it.</p>
+<details id="settings"><summary>Model settings</summary><label for="baseUrl">Provider URL</label><input id="baseUrl" spellcheck="false" placeholder="http://127.0.0.1:11434/v1"><label for="model">Model</label><input id="model" spellcheck="false" placeholder="Model name"><div id="settingsActions"><button id="save">Save model</button><button id="setKey">Set API key</button></div><small>Local Ollama needs no key. ChatGPT and Claude subscription sign-in is not connected yet.</small></details>
+<div id="answer" role="log" aria-live="polite"></div><textarea id="prompt" aria-label="Ask OP-SE AI" placeholder="Ask about code, or select code in the editor first..."></textarea><div><button id="send">Send</button><button id="cancel" disabled>Cancel</button></div><p id="status">Loading model settings...</p>
+<script nonce="${nonce}">
+const vscode=acquireVsCodeApi();
+const p=document.getElementById('prompt'),s=document.getElementById('send'),c=document.getElementById('cancel'),a=document.getElementById('answer'),st=document.getElementById('status'),settings=document.getElementById('settings'),baseUrl=document.getElementById('baseUrl'),model=document.getElementById('model');
+s.onclick=()=>{a.textContent='';vscode.postMessage({type:'send',prompt:p.value})};
+c.onclick=()=>vscode.postMessage({type:'cancel'});
+document.getElementById('save').onclick=()=>vscode.postMessage({type:'saveSettings',baseUrl:baseUrl.value,model:model.value});
+document.getElementById('setKey').onclick=()=>vscode.postMessage({type:'setKey'});
+p.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();s.click()}};
+window.addEventListener('message',e=>{const m=e.data;
+  if(m.type==='settings'){baseUrl.value=m.baseUrl;model.value=m.model;settings.open=!m.model;st.textContent=m.model?'Ready: '+m.model:'Choose a model to start chatting.'}
+  else if(m.type==='settingsSaved'){settings.open=false;st.textContent='Ready: '+m.model}
+  else if(m.type==='start'){s.disabled=true;c.disabled=false;st.textContent='Sending context: '+m.context}
+  else if(m.type==='chunk'){a.textContent+=m.text;a.scrollTop=a.scrollHeight}
+  else if(m.type==='done'||m.type==='error'||m.type==='cancelled'){s.disabled=false;c.disabled=true;st.textContent=m.type==='done'?'Done':m.text}
+});
+vscode.postMessage({type:'ready'});
+</script></body></html>`;
 }
 
 module.exports = { activate };

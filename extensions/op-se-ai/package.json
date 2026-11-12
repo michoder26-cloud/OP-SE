@@ -7,10 +7,11 @@
   "license": "MIT",
   "engines": { "vscode": "^1.104.0" },
   "main": "./extension.js",
-  "activationEvents": ["onView:opSeAi.chat", "onCommand:opSeAi.open", "onCommand:opSeAi.inlineEdit"],
+  "activationEvents": ["onStartupFinished", "onView:opSeAi.chat", "onCommand:opSeAi.open", "onCommand:opSeAi.inlineEdit"],
+  "capabilities": { "untrustedWorkspaces": { "supported": "limited" } },
   "contributes": {
-    "viewsContainers": { "activitybar": [{ "id": "opSeAi", "title": "OP-SE AI", "icon": "media/ai.svg" }] },
-    "views": { "opSeAi": [{ "id": "opSeAi.chat", "name": "Chat", "type": "webview" }] },
+    "viewsContainers": { "secondarySidebar": [{ "id": "opSeAi", "title": "OP-SE AI", "icon": "media/ai.svg" }] },
+    "views": { "opSeAi": [{ "id": "opSeAi.chat", "name": "Chat", "type": "webview", "visibility": "visible" }] },
     "commands": [
       { "command": "opSeAi.open", "title": "OP-SE AI: Open Chat" },
       { "command": "opSeAi.setKey", "title": "OP-SE AI: Set API Key" },

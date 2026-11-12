@@ -13,7 +13,7 @@ Status means **ยังไม่เริ่ม** (not started), **กำลั
 | Git status, diff, staging, commit | ใช้งานได้ | Git smoke suite passed five tests against a temporary repository; manual source-control UI check remains |
 | Diagnostics, autocomplete, go-to-definition | กำลังทำ | Language services are in the base; check a real supported project and installed language extensions |
 | Debugger and extensions | กำลังทำ | Base workbench exists; redistribution audit and runtime checks remain |
-| OP-SE AI chat and selected-code context | กำลังทำ | Existing OP-SE AI extension loads in the development host; provider response not yet verified end to end |
+| OP-SE AI chat and selected-code context | กำลังทำ | AI webview is visible in the Extension Development Host right sidebar, including in Restricted Mode. Provider response from that UI remains unchecked |
 | Streaming, cancellation, timeout, provider errors | กำลังทำ | Four adapter tests passed and a real local Ollama response streamed `OK`; webview end-to-end behavior remains unchecked |
 | Retry policy | ยังไม่เริ่ม | Must retry only bounded transient failures |
 | Inline diff accept/reject | กำลังทำ | Edit Selection command generates a full-file diff and checks for intervening edits before applying; UI acceptance test remains |

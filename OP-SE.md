@@ -29,15 +29,11 @@ After the build is ready, the PowerShell wrapper validates paths and opens an ex
 ./scripts/op-se-dev.ps1 'C:\path\to\your\workspace' -SkipPrelaunch
 ```
 
-The launcher copies the OP-SE AI extension into the development profile so its icon appears in the normal app. To test the extension directly from source, add `-AiDevelopmentHost`. The separate extension development window may open without the folder; choose **File > Open Folder** there and select your workspace.
+The launcher opens an **Extension Development Host** window with OP-SE AI in the right sidebar. This is the window to use for AI testing; the plain OP-SE window does not reliably load the development extension yet. If the folder is missing in that window, choose **File > Open Folder** and select your workspace. Use `-AiDevelopmentHost:$false` only when testing the plain workbench without the AI extension.
 
 The `scripts/code.bat` launcher may run prelaunch again. To use an already
 prepared build, set `VSCODE_SKIP_PRELAUNCH=1` in the same shell before launching.
-Click the OP-SE AI icon in the Activity Bar. Configure `OP-SE AI: Base URL` and
-`OP-SE AI: Model` in Settings, then use `OP-SE AI: Set API Key` from the Command
-Palette when your provider requires a key. The default URL targets local Ollama's
-OpenAI-compatible endpoint. A ChatGPT or Claude subscription is not an API key
-and is not connected to this Code OSS fork yet.
+In the **Extension Development Host** window, OP-SE AI opens in the right sidebar. Expand **Model settings**, enter the provider URL and model, and select **Save model**. Use **Set API key** only when the provider requires one. The default URL targets local Ollama's OpenAI-compatible endpoint. A ChatGPT or Claude subscription is not an API key and is not connected to this Code OSS fork yet.
 Select code in a workspace file and run `OP-SE AI: Edit Selection` from the Command Palette to generate a diff. Inspect it before choosing Apply or Discard. The command refuses to apply a result if the file changed while the model was working or during review. This path has not yet been tested through the visible UI.
 Use a workspace you trust. The current fork has not passed an installer or
 extension redistribution audit.

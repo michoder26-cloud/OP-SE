@@ -2,10 +2,7 @@
 
 ## Decision
 
-Use the MIT-licensed Code OSS source as the desktop IDE base. Keep the existing
-Rust editor prototype in the separate OP-SE repository as an experiment while
-the desktop workbench is brought up. Build OP-SE features as maintained workbench
-changes and extensions, with Rust services only where native processing helps.
+Use the MIT-licensed Code OSS source as the desktop IDE base. Build OP-SE features as maintained workbench changes and extensions, with Rust services where native processing helps. The earlier Rust editor prototype is a separate repository; its current working tree contains deleted files, so it is not part of this build.
 
 ## Why
 
@@ -24,9 +21,7 @@ The Code OSS license is MIT. Do not assume that Microsoft's branded builds, Mark
 2. Launch a real workspace and verify editor save and shell terminal through the branded build's integration tests (done; see `test-report.md`).
 3. Run manual keyboard checks in the visible window before calling the UI experience complete; extension-host tests already cover file edit/save, terminal, project search, and Git against real temporary workspaces.
 
-The Rust prototype already supports opening and saving workspace files, but
-its missing PTY terminal and language service integration are reasons to move
-the product shell to Code OSS.
+The earlier Rust prototype had workspace file editing, but lacked a PTY terminal and language service integration. The current product shell therefore uses Code OSS.
 
 ## Commercial boundary
 
